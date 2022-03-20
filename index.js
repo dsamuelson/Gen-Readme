@@ -18,11 +18,11 @@ const mockData = {
     usage: 'run the index.js file and answer the prompts',
     license: 'Unlicense',
     features: true,
-    featureList: "It's cool<>It's hot<>It's ok",
+    featureList: "It's cool\nIt's hot\nIt's ok",
     contribute: true,
-    contributeList: 'contact me first<>fork the project<>when ready file a merge request',
+    contributeList: 'contact me first\nfork the project\nwhen ready file a merge request',
     yesTests: true,
-    testList: 'Testing<>testing<>testing123',
+    testList: 'Testing\ntesting\ntesting123',
     yesQuestions: true,
     questionsList: 'Please send an email first before contributing'
   };
@@ -103,7 +103,14 @@ const questions = [
     {
         type: 'input',
         name: 'description',
-        message: 'Please enter a description (not required but advised)'
+        message: 'Please enter a description (not required but advised)',
+        validate: descriptionInput => {
+            if (descriptionInput) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     },
     {
         type: 'input',
@@ -128,6 +135,7 @@ const questions = [
         name: 'license',
         message: "What license does this fall under?",
         choices: ['None','Unlicense','MIT','Boost','Apache', 'Mozilla', 'GNU AGPLv3','GNU GPLv3', 'GNU LGPLv3'],
+        default: 'None',
         validate: choiceMade => {
             if (choiceMade) {
                 return true;
@@ -145,7 +153,7 @@ const questions = [
     {
         type: "input",
         name: "featureList",
-        message: 'Please enter your list of features:(put a <> between features if you want them on multiple lines)',
+        message: 'Please enter your list of features:',
         when: ({ features }) => {
             if (features) {
                 return true;
@@ -163,7 +171,7 @@ const questions = [
     {
         type: "input",
         name: "contributeList",
-        message: 'Please enter your instructions for contribution:(put a <> between features if you want them on multiple lines)',
+        message: 'Please enter your instructions for contribution:',
         when: ({ contribute }) => {
             if (contribute) {
                 return true;
@@ -181,7 +189,7 @@ const questions = [
     {
         type: "input",
         name: "testList",
-        message: 'Please enter your tests and examples(put a <> between features if you want them on multiple lines)',
+        message: 'Please enter your tests and examples:',
         when: ({ yesTests }) => {
             if (yesTests) {
                 return true;
