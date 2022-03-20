@@ -78,7 +78,9 @@ Run node ./index.js and answer the onscreen prompts to build your README
 ## Questions
 
 I try to answer any emails I can, but know I don't check them too often so be patient, I will get to it at some point
- 
+
+here is a video I created showing how to use it:
+https://watch.screencastify.com/v/3hdxE1gaiydfkAZZpXDs
 
 ## Contact
 
