@@ -1,4 +1,4 @@
-const date = new Date();
+// Array of objects that will be used to input the license information, the function for this is called at the bottom
 
 const licenseInfo = [
     {
@@ -2182,6 +2182,8 @@ Library.`,
     }
 ];
 
+// function that compares the requested license to the license object and returns the important information
+
 function licensePicked (licensefunc) {
         if (!licensefunc) {
             licensefunc = 'None';
@@ -2193,5 +2195,7 @@ function licensePicked (licensefunc) {
         }
     }
 };
+
+// exporting the function to be used in the main application
 
 module.exports = licensePicked;

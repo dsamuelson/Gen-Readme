@@ -71,10 +71,12 @@ function renderContents(sections) {
   tocArr.push('- [License](#license)');
   tocArrCont.push('## Contact\n\n' + sections.userEmail + '\\n' + 'GitHub: ' + `https://github.com/${sections.userGithub}?tab=repositories`);
   
+  // returns selected Table of Contents array and the selected segments content in an array that can be used to dynamically build the Markdown data
+
   return [tocArr.join("\r\n"), tocArrCont.join("\r\n").replace(/\\n/g, '\n' + '\n')];
 }
 
-// TODO: Create a function to generate markdown for README
+// generate markdown for README
 function generateMarkdown(data) {
     
     return `# ${data.projectName}
