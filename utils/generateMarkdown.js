@@ -18,10 +18,11 @@ function renderLicenseBadge(license) {
 function renderLicenseSection(license) {
     const [ licenseText, licenseLink ] = generateLicense(license);
     return `## License
-    Link: ${licenseLink}
-    
-    License Terms:
-    ${licenseText}
+
+Link: ${licenseLink}
+
+License Terms:
+${licenseText}
     `
 }
 
@@ -31,42 +32,60 @@ function renderLicenseSection(license) {
 function renderContents(sections) {
   const tocArr = [];
   const tocArrCont = [];
+  if (sections.description) {
+      tocArr.push('- [Description](#description)');
+      tocArrCont.push('## Description\n\n' + sections.description + '\n');
+  }
+    tocArr.push('- [Contributors](#contributors)');
   if (sections.otherCont) {
-    tocArr.push('- [Contributors](#Contributors)');
-    tocArrCont.push('## Contributors' + sections.contNames + '\n');
+    tocArrCont.push('## Contributors\n\n' + sections.userName + '\n' + sections.contNames + '\n');
+  } else {
+    tocArrCont.push('## Contributors\n\n' + sections.userName + '\n');
   }
   if (sections.features) {
-    tocArr.push('- [Features](#Features)');
-    tocArrCont.push('## Features\n' + sections.featureList + '\n');
+    tocArr.push('- [Features](#features)');
+    tocArrCont.push('## Features\n\n' + sections.featureList + '\n');
   }
   if (sections.contribute) {
-    tocArr.push('- [Contribute](#Contribute)');
-    tocArrCont.push('## Contribute\n' + sections.contributeList + '\n');
+    tocArr.push('- [Contribute](#contribute)');
+    tocArrCont.push('## Contribute\n\n' + sections.contributeList + '\n');
   }
   if (sections.yesTests) {
-    tocArr.push('- [Tests](#Tests)');
-    tocArrCont.push('## Tests\n' + sections.testList + '\n');
+    tocArr.push('- [Tests](#tests)');
+    tocArrCont.push('## Tests\n\n' + sections.testList + '\n');
   }
   if (sections.installation) {
-    tocArr.push('- [Installation](#Installation)');
-    tocArrCont.push('## Installation\n' + sections.installation + '\n');
+    tocArr.push('- [Installation](#installation)');
+    tocArrCont.push('## Installation\n\n' + sections.installation + '\n');
   }
   if (sections.usage) {
-    tocArr.push('- [Usage](#Usage)');
-    tocArrCont.push('## Usage' + sections.usage + '\n')
+    tocArr.push('- [Usage](#usage)');
+    tocArrCont.push('## Usage\n\n' + sections.usage + '\n');
   }
-  tocArr.push('- [License](#License)')
+  if (sections.yesQuestions){
+      tocArr.push('- [Questions](#questions)')
+      tocArrCont.push('## Questions\n\n' + sections.questionsList + '\n \n');
+  }
   
-  return [tocArr.toString().replace(/,/g , '\n'), tocArrCont.toString().replace(/,/g , '\n')];
+  tocArr.push('- [Contact Information](#contact)');
+  tocArr.push('- [License](#license)');
+  tocArrCont.push('## Contact\n\n' + sections.userEmail + '\\n' + 'GitHub: ' + `https://github.com/${sections.userGithub}?tab=repositories`);
+  
+  return [tocArr.join("\r\n"), tocArrCont.join("\r\n").replace(/\\n/g, '\n' + '\n')];
 }
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
-  console.log(renderContents(data)[1]);
-  return `# ${data.projectName}
-  ![${data.license} badge](${renderLicenseBadge(data.license)})
-  ## Table of Contents
-  ${renderContents(data)}
+    
+    return `# ${data.projectName}
+![${data.license} badge](${renderLicenseBadge(data.license)})
+## Table of Contents
+
+${renderContents(data)[0]}
+
+${renderContents(data)[1]}
+
+${renderLicenseSection(data.license)}
 `;
 }
 

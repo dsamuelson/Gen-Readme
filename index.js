@@ -2,30 +2,8 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateMarkdown = require('./utils/generateMarkdown.js')
-
-// mock data for testing
-
-const mockData = {
-    projectName: 'Test',
-    userName: 'David Samuelson',
-    userGithub: 'dsamuelson',
-    userEmail: 'dsamuelson89@gmail.com',
-    otherCont: true,
-    contNames: 'Jen Klimeck, Stacy Irwin',
-    description: 'This is a test run to see how the information will be displayed',
-    installation: 'download to computer and run in node.js',
-    usage: 'run the index.js file and answer the prompts',
-    license: 'Unlicense',
-    features: true,
-    featureList: "It's cool\nIt's hot\nIt's ok",
-    contribute: true,
-    contributeList: 'contact me first\nfork the project\nwhen ready file a merge request',
-    yesTests: true,
-    testList: 'Testing\ntesting\ntesting123',
-    yesQuestions: true,
-    questionsList: 'Please send an email first before contributing'
-  };
+const generateMarkdown = require('./utils/generateMarkdown.js');
+const writeFile = require('./utils/gen-readme.js');
 
 // array of questions for user input
 
@@ -73,14 +51,6 @@ const questions = [
         type: 'input',
         name: 'userEmail',
         message: 'What is your email?(Required)'
-        // validate: nameInput => {
-        //     if (nameInput.contains('*@*.com')) {
-        //         return true;
-        //     } else {
-        //         console.log('Please enter your email');
-        //         return false;
-        //     }
-        // }
     },
     {
         type: 'confirm',
@@ -218,14 +188,43 @@ const questions = [
     }
 ];
 
-// inquirer.prompt(questions).then(answers => console.log(answers));
-
-// write README file
-function writeToFile(fileName, data) {}
 
 // initialize app
+
 function init() {
-    generateMarkdown(mockData);
+
+    // help with answers to get formatted properly
+
+    console.log(`
+    Please use \\n to put new lines in your answers
+    for example if you say Stacy\\nJen\\nMike then it will come out as 
+    Stacy
+    Jen
+    Mike
+
+    Other than that you can use any typical markdown notation
+    `);
+
+    // run async so everything will load in order
+    
+    inquirer.prompt(questions)
+    .then((markdownData) => {
+        // generate README content
+        return generateMarkdown(markdownData);
+    })
+    .then(markdownContent => {
+        // write README file
+        return writeFile(markdownContent);
+    })
+    .then(writeFileResponse => {
+        // if successful
+        console.log(writeFileResponse);
+    })
+    .catch(err => {
+        // if a problem
+        console.log(err);
+    });
+   
 }
 
 // call to initialize app
